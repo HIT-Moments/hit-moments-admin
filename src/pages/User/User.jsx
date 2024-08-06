@@ -29,11 +29,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { toast } from 'sonner';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
-import { Toaster } from '@/components/ui/toaster';
 import { convertDate } from '@/utils/convertDate';
 import { Skeleton } from '@/components/ui/skeleton';
 import useUserActions from '@/hooks/useUserActions';
@@ -78,19 +77,12 @@ const User = () => {
 
   useEffect(() => {
     if (error) {
-      const message = error.response?.data?.message || error.message;
-      toast({
-        className: 'bg-error text-primaryLight-10',
-        description: message,
-      });
+      toast.error('Thêm người dùng thất bại');
       return;
     }
 
     if (message) {
-      toast({
-        className: 'bg-success text-primaryLight-10',
-        description: message,
-      });
+      toast.success(message);
     }
   }, [error, message]);
 
@@ -261,7 +253,6 @@ const User = () => {
           </PaginationContent>
         </Pagination>
       </div>
-      <Toaster />
     </div>
   );
 };

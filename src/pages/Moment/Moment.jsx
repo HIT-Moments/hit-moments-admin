@@ -1,23 +1,21 @@
-import userApi from '@/apis/user.api';
-import { columns } from './columns';
-import { DataTable } from './data-table';
+import { Toaster } from '@/components/ui/sonner';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
-export default async function Moment() {
+const Moment = () => {
   useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const response = await userApi.getAll({ limit: 10, page: 1 });
-        return response.data.data.users;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    console.log(fetchUsers());
-
-    const data = fetchUsers();
+    toast('Đăng nhập thành công', {
+      className: 'bg-success text-primaryLight-10 border-l-4 !border-success',
+      position: 'top-center',
+      duration: 100000,
+    });
   }, []);
 
-  return <div className="container mx-auto py-10">{/* <DataTable columns={columns} data={data} /> */}</div>;
-}
+  return (
+    <>
+      <Toaster />
+    </>
+  );
+};
+
+export default Moment;

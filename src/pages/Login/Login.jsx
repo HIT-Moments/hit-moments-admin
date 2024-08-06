@@ -1,9 +1,8 @@
+import { toast } from 'sonner';
 import { Formik, Field, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
-import { Toaster } from '@/components/ui/toaster';
-import { useToast } from '@/components/ui/use-toast';
 
 import useLogin from '@/hooks/useLogin';
 import Loading from '@/components/Loading/Loading';
@@ -13,7 +12,6 @@ import emailInputImage from '@/assets/images/user.png';
 import passwordInputImage from '@/assets/images/password.png';
 
 const Login = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const { isLoading, handleLogin } = useLogin();
 
@@ -23,18 +21,11 @@ const Login = () => {
     const errorMessage = error?.response?.data?.message || error?.message || 'Đã có lỗi xảy ra';
 
     if (error) {
-      toast({
-        className: 'bg-error text-primaryLight-10',
-        variant: 'destructive',
-        title: 'Đăng nhập thất bại',
-        description: errorMessage,
-      });
+      toast.error(errorMessage);
       return;
     }
 
-    toast({
-      className: 'bg-success text-primaryLight-10',
-      title: 'Đăng nhập thành công',
+    toast.success('Đăng nhập thành công', {
       description: 'Chuyển hướng đến trang chủ...',
     });
 
@@ -107,7 +98,6 @@ const Login = () => {
           )}
         </Formik>
       </div>
-      <Toaster />
     </div>
   );
 };

@@ -6,7 +6,9 @@ module.exports = {
   theme: {
     colors: {
       error: '#D81A1A',
+      errorBackground: '#FEE2E2',
       success: '#46A758',
+      successBackground: '#E7F4E7',
       primaryLight: {
         10: '#FEFCFB',
         20: '#FFF8F4',
