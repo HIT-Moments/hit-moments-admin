@@ -72,7 +72,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      dongle: ['Dongle', 'sans-serif'],
+      inter: ['Inter', 'sans-serif'],
     },
     extend: {
       colors: {
@@ -128,6 +128,10 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      backgroundImage: {
+        'user-input': "url('@/assets/images/user.png')",
+        'password-input': "url('@/assets/images/password.png')",
       },
     },
   },

@@ -1,21 +1,56 @@
-import { login } from '@/apis/auth.api';
 import { Formik, Field, Form } from 'formik';
-import { setToken } from '@/utils/authToken';
-import { Button } from '@/components/ui/button';
-import { loginValidate } from '@/utils/loginValidate';
-import LoginImage from '../../assets/images/login-img.png';
-import { useToast } from '@/components/ui/use-toast';
-import { Toaster } from '@/components/ui/toaster';
 import { useNavigate } from 'react-router-dom';
+
+import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/use-toast';
+
+import useLogin from '@/hooks/useLogin';
+import Loading from '@/components/Loading/Loading';
+import { loginValidate } from '@/utils/loginValidate';
+import LoginImage from '@/assets/images/login-img.png';
+import emailInputImage from '@/assets/images/user.png';
+import passwordInputImage from '@/assets/images/password.png';
 
 const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { isLoading, handleLogin } = useLogin();
+
+  const handleSubmit = async ({ email, password }) => {
+    const error = await handleLogin({ email, password });
+
+    const errorMessage = error?.response?.data?.message || error?.message || 'Đã có lỗi xảy ra';
+
+    if (error) {
+      toast({
+        className: 'bg-error text-primaryLight-10',
+        variant: 'destructive',
+        title: 'Đăng nhập thất bại',
+        description: errorMessage,
+      });
+      return;
+    }
+
+    toast({
+      className: 'bg-success text-primaryLight-10',
+      title: 'Đăng nhập thành công',
+      description: 'Chuyển hướng đến trang chủ...',
+    });
+
+    setTimeout(() => {
+      navigate('/');
+    }, 2000);
+  };
+
+  if (isLoading) {
+    <Loading />;
+  }
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center gap-10">
+    <div className="flex h-screen w-screen items-center justify-center gap-12">
       <div>
-        <img src={LoginImage} className="w-[400px]" alt="" />
+        <img src={LoginImage} className="w-[500px]" alt="" />
       </div>
       <div>
         <Formik
@@ -24,59 +59,47 @@ const Login = () => {
             password: '',
           }}
           validationSchema={loginValidate}
-          onSubmit={({ email, password }) => {
-            login({ email, password })
-              .then((res) => {
-                setToken(res.data?.data?.accessToken);
-                toast({
-                  className: 'bg-success text-primaryLight-10',
-                  title: 'Đăng nhập thành công',
-                  description: 'Chuyển hướng đến trang chủ...',
-                });
-                setTimeout(() => {
-                  navigate('/');
-                }, 2000);
-              })
-              .catch((error) => {
-                toast({
-                  className: 'bg-error text-primaryLight-10',
-                  variant: 'destructive',
-                  title: 'Đăng nhập thất bại',
-                  description: error.response?.data?.message || 'Đã có lỗi xảy ra',
-                });
-              });
-          }}
+          onSubmit={({ email, password }) => handleSubmit({ email, password })}
         >
           {({ errors, touched }) => (
-            <Form className="flex flex-col items-center gap-4">
-              <h1 className="text-center text-8xl">Đăng nhập</h1>
-              <div>
+            <Form className="flex flex-col items-center">
+              <h1 className="mb-2 text-center text-6xl">Đăng nhập</h1>
+              <p className="mb-8 text-center text-base text-neuturalLight-80">
+                Vui lòng nhập email và mật khẩu của bạn
+              </p>
+              <div className="relative">
                 <Field
                   type="email"
                   id="email"
                   name="email"
                   placeholder="Email"
-                  className={`border-b-black w-72 border-b py-2 pl-4 text-2xl placeholder:text-2xl focus:border-b-primaryLight-100 focus:outline-none ${
+                  className={`border-b-black w-80 border-b py-2 pl-10 placeholder:text-xl focus:border-b-primaryLight-100 focus:outline-none ${
                     errors.email && touched.email && '!border-b-error outline-error'
                   }`}
                 />
-                <div className="text-2xl text-error">&#8205;{touched.email ? errors.email : ''}</div>
+                <span className="absolute left-0 top-0 flex size-10 items-center justify-center">
+                  <img src={emailInputImage} alt="" />
+                </span>
               </div>
-              <div>
+              <div className="mt-2 self-start text-error">&#8205;{touched.email ? errors.email : ''}</div>
+              <div className="relative">
                 <Field
                   type="password"
                   id="password"
                   name="password"
                   placeholder="Mật khẩu"
-                  className={`border-b-black w-72 border-b py-2 pl-4 text-2xl placeholder:text-2xl focus:border-b-primaryLight-100 focus:outline-none ${
+                  className={`border-b-black w-80 border-b py-2 pl-10 placeholder:text-xl focus:border-b-primaryLight-100 focus:outline-none ${
                     errors.password && touched.password && '!border-b-error outline-error'
                   }`}
                 />
-                <div className="text-2xl text-error">&#8205;{touched.password ? errors.password : ''}</div>
+                <span className="absolute left-0 top-0 flex size-10 items-center justify-center">
+                  <img src={passwordInputImage} alt="" />
+                </span>
               </div>
+              <div className="mt-2 self-start text-error">&#8205;{touched.password ? errors.password : ''}</div>
               <Button
                 type="submit"
-                className="mt-4 h-12 w-52 rounded-full bg-primaryLight-100 text-3xl text-neuturalLight-10"
+                className="mt-4 h-12 w-52 rounded-full bg-primaryLight-100 text-xl text-neuturalLight-10"
               >
                 Đăng nhập
               </Button>

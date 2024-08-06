@@ -8,6 +8,10 @@ const authApi = {
       password,
     });
   },
+
+  getMe: async () => {
+    return await api.get(ApiConstant.auth.getMe);
+  },
 };
 
-export const { login } = authApi;
+export const { login, getMe } = authApi;
