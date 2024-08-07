@@ -7,11 +7,11 @@ export const ApiConstant = {
     getAll: '/users',
     create: '/users',
     delete: '/users',
+    get: '/users',
+    update: '/users',
   },
   moment: {
     getAll: '/moments',
-    add: '/moments',
     delete: '/moments',
-    getByUserId: '/moments',
   },
 };

@@ -44,6 +44,7 @@ const User = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(null);
   const [isUpdate, setIsUpdate] = useState(false);
+  // const [selectedUser, setSelectedUser] = useState(null);
 
   const { users, isLoading, totalPage, message, fetchUsers, createUser, deleteUser } = useUserActions();
 
@@ -69,6 +70,20 @@ const User = () => {
 
     setIsUpdate(true);
   };
+
+  // const handleUpdateUser = async (e) => {
+  //   e.preventDefault();
+  //   const user = {
+  //     fullname: e.target.updateFullname.value,
+  //     email: e.target.updateEmail.value,
+  //     phoneNumber: e.target.updatePhoneNumber.value,
+  //     role: e.target.updateRole.value,
+  //   };
+  //   setError(await updateUser(selectedUser._id, user));
+  //   e.target.reset();
+
+  //   setIsUpdate(true);
+  // };
 
   useEffect(() => {
     setIsUpdate(false);
@@ -172,7 +187,7 @@ const User = () => {
                     <TableCell>{user.phoneNumber}</TableCell>
                     <TableCell>{user.role}</TableCell>
                     <TableCell>{convertDate(user.createdAt)}</TableCell>
-                    <TableCell>
+                    <TableCell className="flex gap-2">
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button
@@ -195,6 +210,45 @@ const User = () => {
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
+                      {/* <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className="bg-background text-primaryDark-10 hover:bg-neuturalLight-40"
+                          >
+                            Sửa
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Cập nhật người dùng</DialogTitle>
+                          </DialogHeader>
+                          <DialogDescription></DialogDescription>
+                          <form onSubmit={handleUpdateUser}>
+                            <div>
+                              <div>
+                                <Label htmlFor="updateFullname">Họ tên</Label>
+                                <Input id="updateFullname" value={selectedUser?.fullname || ''} />
+                              </div>
+                              <div>
+                                <Label htmlFor="updateEmail">Email</Label>
+                                <Input type="email" id="updateEmail" value={selectedUser?.email || ''} />
+                              </div>
+                              <div>
+                                <Label htmlFor="updatePhoneNumber">Số điện thoại</Label>
+                                <Input id="updatePhoneNumber" value={selectedUser?.phoneNumber || ''}></Input>
+                              </div>
+                              <div>
+                                <Label htmlFor="updateRole">Vai trò</Label>
+                                <Input type="password" id="updateRole" value={selectedUser?.role || ''}></Input>
+                              </div>
+                            </div>
+                            <DialogFooter className="mt-4">
+                              <Button type="submit">Lưu</Button>
+                            </DialogFooter>
+                          </form>
+                        </DialogContent>
+                      </Dialog> */}
                     </TableCell>
                   </TableRow>
                 ))}

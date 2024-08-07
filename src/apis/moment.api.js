@@ -11,9 +11,9 @@ const momentApi = {
     });
   },
 
-  create: async () => {},
-
-  delete: async () => {},
+  delete: async (momentId) => {
+    return await api.delete(`${ApiConstant.moment.delete}/${momentId}`);
+  },
 };
 
 export default momentApi;

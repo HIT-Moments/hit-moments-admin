@@ -12,6 +12,7 @@ import useGetMe from '@/hooks/useGetMe';
 import Loading from '@/components/Loading/Loading';
 import { useNavigate } from 'react-router';
 import useAuth from '@/store/useAuth';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -34,9 +35,9 @@ const Header = () => {
 
   return (
     <header className="flex h-20 items-center justify-between border-b border-neuturalLight-80 px-10 py-2">
-      <a href="#">
+      <Link to="https://hitmoments.com/">
         <img src={Logo} alt="" className="size-16" />
-      </a>
+      </Link>
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger>

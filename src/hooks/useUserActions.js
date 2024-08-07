@@ -46,6 +46,31 @@ const useUserActions = () => {
     }
   };
 
+  const getUser = async (userId) => {
+    setIsLoading(true);
+    try {
+      const response = await userApi.get(userId);
+      return response.data.data.user;
+    } catch (error) {
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateUser = async (userId, user) => {
+    setIsLoading(true);
+    try {
+      const response = await userApi.update(userId, user);
+      await fetchUsers();
+      setMessage(response.data.message);
+    } catch (error) {
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     users,
     isLoading,
@@ -54,6 +79,8 @@ const useUserActions = () => {
     fetchUsers,
     createUser,
     deleteUser,
+    getUser,
+    updateUser,
   };
 };
 

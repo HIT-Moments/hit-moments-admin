@@ -20,6 +20,16 @@ const userApi = {
   delete: async (userId) => {
     return await api.delete(`${ApiConstant.user.delete}/${userId}`);
   },
+
+  get: async (userId) => {
+    return await api.get(`${ApiConstant.user.get}/${userId}`);
+  },
+
+  update: async (userId, user) => {
+    return await api.put(`${ApiConstant.user.update}/${userId}`, {
+      ...user,
+    });
+  },
 };
 
 export default userApi;
