@@ -19,18 +19,21 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import useMomentActions from '@/hooks/useMomentActions';
-import { convertDate } from '@/utils/convertDate';
-import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
-import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { useEffect, useState } from 'react';
+import { convertDate } from '@/utils/convertDate';
+import { Skeleton } from '@/components/ui/skeleton';
+import useMomentActions from '@/hooks/useMomentActions';
+import MomentDetail from '@/components/MomentDetail/MomentDetail';
+import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const Moment = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isUpdate, setIsUpdate] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedMoment, setSelectedMoment] = useState(null);
+  const [isDelete, setIsDelete] = useState(false);
 
   const { moments, isLoading, totalPage, message, fetchMoments, deleteMoment } = useMomentActions();
 
@@ -45,7 +48,12 @@ const Moment = () => {
 
   const handleDeleteUser = async (id) => {
     setError(await deleteMoment(id));
+    setIsDelete(false);
     setIsUpdate(true);
+  };
+
+  const handleCloseDetail = () => {
+    setSelectedMoment(null);
   };
 
   useEffect(() => {
@@ -97,7 +105,12 @@ const Moment = () => {
                     </TableRow>
                   ))
               : moments.map((moment) => (
-                  <TableRow key={moment._id}>
+                  <TableRow
+                    key={moment._id}
+                    onClick={() => {
+                      !isDelete && setSelectedMoment(moment);
+                    }}
+                  >
                     <TableCell>
                       <img src={moment.image} alt="" className="size-10 object-cover" />
                     </TableCell>
@@ -108,7 +121,13 @@ const Moment = () => {
                     <TableCell>{convertDate(moment.createdAt)}</TableCell>
                     <TableCell className="flex gap-2">
                       <AlertDialog>
-                        <AlertDialogTrigger asChild>
+                        <AlertDialogTrigger
+                          asChild
+                          onClick={(e) => {
+                            setIsDelete(true);
+                            e.stopPropagation();
+                          }}
+                        >
                           <Button
                             variant="outline"
                             className="bg-background text-primaryDark-10 hover:bg-neuturalLight-40"
@@ -122,7 +141,7 @@ const Moment = () => {
                             <AlertDialogDescription>Bạn có chắc chắn muốn xóa moment này không?</AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Hủy bỏ</AlertDialogCancel>
+                            <AlertDialogCancel onClick={() => setIsDelete(false)}>Hủy bỏ</AlertDialogCancel>
                             <AlertDialogAction onClick={() => handleDeleteUser(moment._id)}>Xác nhận</AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -185,6 +204,7 @@ const Moment = () => {
           </PaginationContent>
         </Pagination>
       </div>
+      {selectedMoment && <MomentDetail moment={selectedMoment} onClose={handleCloseDetail} />}
     </div>
   );
 };
