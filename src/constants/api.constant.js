@@ -18,4 +18,7 @@ export const ApiConstant = {
     search: '/musics',
     delete: '/musics',
   },
+  report: {
+    getAll: '/reports',
+  },
 };
