@@ -13,12 +13,20 @@ import Loading from '@/components/Loading/Loading';
 import { useNavigate } from 'react-router';
 import useAuth from '@/store/useAuth';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Header = () => {
   const navigate = useNavigate();
   const { user, logoutState } = useAuth();
 
-  const { isLoading, error } = useGetMe();
+  const { isLoading, error, setIsLoading } = useGetMe();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [setIsLoading]);
 
   if (isLoading) {
     return <Loading />;

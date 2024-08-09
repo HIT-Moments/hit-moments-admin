@@ -16,15 +16,13 @@ const useGetMe = () => {
         setUser(response.data.data.user);
       } catch (error) {
         setError(error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
     fetchMe();
   }, [setUser]);
 
-  return { isLoading, error };
+  return { isLoading, error, setIsLoading };
 };
 
 export default useGetMe;
