@@ -102,7 +102,7 @@ const User = () => {
   }, [error, message]);
 
   return (
-    <div className="w-full p-6">
+    <div className="relative w-full p-6">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Quản lý người dùng</h1>
         <Dialog>
@@ -254,7 +254,7 @@ const User = () => {
                 ))}
           </TableBody>
         </Table>
-        <Pagination className="mt-10">
+        <Pagination className="absolute bottom-40 mr-10 pr-12">
           <PaginationContent>
             <PaginationItem>
               <PaginationLink

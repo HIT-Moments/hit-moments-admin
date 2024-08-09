@@ -24,7 +24,7 @@ const Report = () => {
   }, [currentPage, fetchReports]);
 
   return (
-    <div className="w-full p-6">
+    <div className="relative w-full p-6">
       <div className="flex items-center justify-between">
         <h1 className="mb-6 text-2xl font-bold">Quản lý khiếu nại</h1>
       </div>
@@ -66,7 +66,7 @@ const Report = () => {
                 ))}
           </TableBody>
         </Table>
-        <Pagination className="mt-10">
+        <Pagination className="absolute bottom-40 mr-10 pr-12">
           <PaginationContent>
             <PaginationItem>
               <PaginationLink
