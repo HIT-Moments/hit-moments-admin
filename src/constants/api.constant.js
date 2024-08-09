@@ -21,4 +21,7 @@ export const ApiConstant = {
   report: {
     getAll: '/reports',
   },
+  feedback: {
+    getAll: '/feedbacks',
+  },
 };
