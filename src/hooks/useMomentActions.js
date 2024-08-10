@@ -17,6 +17,7 @@ const useMomentActions = () => {
       setMoments(response.data.data.moments);
       setTotalPage(response.data.data.totalPage);
       setTotalMoment(response.data.data.totalMoments);
+      setMessage(response.data.message);
     } catch (error) {
       return error;
     } finally {

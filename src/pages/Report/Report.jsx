@@ -13,15 +13,27 @@ import useReportActions from '@/hooks/useReportActions';
 import { convertDate } from '@/utils/convertDate';
 import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 const Report = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { reports, isLoading, totalPage, fetchReports } = useReportActions();
+  const { reports, isLoading, totalPage, error, message, fetchReports } = useReportActions();
 
   useEffect(() => {
     fetchReports(10, currentPage);
   }, [currentPage, fetchReports]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    if (message) {
+      toast.success(message);
+    }
+  }, [error, message]);
 
   return (
     <div className="relative w-full p-6">

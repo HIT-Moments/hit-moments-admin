@@ -7,6 +7,7 @@ const useReportActions = () => {
   const [totalPage, setTotalPage] = useState(1);
   const [totalReport, setTotalReport] = useState(0);
   const [message, setMessage] = useState('');
+  const [error, setError] = useState(null);
 
   const fetchReports = useCallback(async (limit = 10, page = 1) => {
     setIsLoading(true);
@@ -15,14 +16,16 @@ const useReportActions = () => {
       setReports(response.data.data.reports);
       setTotalPage(response.data.data.totalPages);
       setTotalReport(response.data.data.totalResults);
+      setMessage(response.data.message);
     } catch (error) {
+      setError(error);
       return error;
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  return { reports, isLoading, totalPage, totalReport, message, fetchReports };
+  return { reports, isLoading, totalPage, totalReport, message, error, fetchReports };
 };
 
 export default useReportActions;

@@ -92,7 +92,7 @@ const User = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error('Thêm người dùng thất bại');
+      toast.error(error.message);
       return;
     }
 

@@ -15,6 +15,7 @@ const useUserActions = () => {
       setUsers(response.data.data.users);
       setTotalPage(response.data.data.totalPage);
       setTotalUser(response.data.data.totalUsers);
+      setMessage(response.data.message);
     } catch (error) {
       return error;
     } finally {
