@@ -1,12 +1,13 @@
 import Card from '@/components/Card/Card';
 import MomentChart from '@/components/Chart/MomentChart';
+import { Skeleton } from '@/components/ui/skeleton';
 import useFeedbackActions from '@/hooks/useFeedbackActions';
 import useMomentActions from '@/hooks/useMomentActions';
 import useMusicActions from '@/hooks/useMusicActions';
 import useReportActions from '@/hooks/useReportActions';
 import useUserActions from '@/hooks/useUserActions';
 import { ExclamationTriangleIcon, FileTextIcon, ImageIcon, PersonIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Dashboard = () => {
   const { totalUser, fetchUsers } = useUserActions();
@@ -15,6 +16,8 @@ const Dashboard = () => {
   const { totalReport, fetchReports } = useReportActions();
   const { totalFeedback, fetchFeedbacks } = useFeedbackActions();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     fetchUsers();
     fetchMoments();
@@ -22,6 +25,13 @@ const Dashboard = () => {
     fetchReports();
     fetchFeedbacks();
   }, [fetchUsers, fetchMoments, fetchMusics, fetchReports, fetchFeedbacks]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [setIsLoading]);
 
   return (
     <div className="h-full w-full p-6">
@@ -50,18 +60,22 @@ const Dashboard = () => {
           <div className="w-2/3">
             <MomentChart />
           </div>
-          <div className="aspect-auto w-1/3 rounded-xl border p-4 shadow">
-            <p className="font-bold">5 moments gần nhất</p>
-            {moments.slice(0, 5).map((moment) => (
-              <div key={moment.id} className="mt-2 flex items-center gap-4">
-                <img src={moment.image} alt="" className="h-20 w-20 rounded-lg object-cover" />
-                <div>
-                  <p className="font-bold">{moment.user.fullname}</p>
-                  <p>{moment.content}</p>
+          {isLoading ? (
+            <Skeleton className="aspect-auto w-1/3" />
+          ) : (
+            <div className="aspect-auto w-1/3 rounded-xl border p-4 shadow">
+              <p className="font-bold">5 moments gần nhất</p>
+              {moments.slice(0, 5).map((moment) => (
+                <div key={moment._id} className="mt-2 flex items-center gap-4">
+                  <img src={moment.image} alt="" className="h-20 w-20 rounded-lg object-cover" />
+                  <div>
+                    <p className="font-bold">{moment.user.fullname}</p>
+                    <p>{moment.content}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

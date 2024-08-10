@@ -32,8 +32,20 @@ const MomentChart = () => {
     async function fetchData() {
       const momentsData = await fetchMomentsCurrentMonth();
 
+      const mergedDate = momentsData.reduce((acc, moment) => {
+        const existingDate = acc.find((date) => date.date === moment.date);
+
+        if (existingDate) {
+          existingDate.total += moment.total;
+        } else {
+          acc.push(moment);
+        }
+
+        return acc;
+      }, []);
+
       const mergedResults = allDates.map((date) => {
-        const result = momentsData.find((moment) => moment.date === date.date);
+        const result = mergedDate.find((moment) => moment.date === date.date);
         return result ? result : date;
       });
 
