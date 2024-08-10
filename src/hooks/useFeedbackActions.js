@@ -5,6 +5,7 @@ const useFeedbackActions = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
+  const [totalFeedback, setTotalFeedback] = useState(0);
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
 
@@ -15,6 +16,7 @@ const useFeedbackActions = () => {
       setFeedbacks(response.data.data.feedbacks);
       setTotalPage(response.data.data.totalPage);
       setMessage(response.data.message);
+      setTotalFeedback(response.data.data.totalResults);
     } catch (error) {
       setError(error);
     } finally {
@@ -22,7 +24,7 @@ const useFeedbackActions = () => {
     }
   }, []);
 
-  return { feedbacks, isLoading, totalPage, message, error, fetchFeedbacks };
+  return { feedbacks, isLoading, totalPage, totalFeedback, message, error, fetchFeedbacks };
 };
 
 export default useFeedbackActions;

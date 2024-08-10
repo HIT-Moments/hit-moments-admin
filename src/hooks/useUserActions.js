@@ -5,6 +5,7 @@ const useUserActions = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
+  const [totalUser, setTotalUser] = useState(0);
   const [message, setMessage] = useState('');
 
   const fetchUsers = useCallback(async (limit = 10, page = 1) => {
@@ -13,6 +14,7 @@ const useUserActions = () => {
       const response = await userApi.getAll({ limit, page });
       setUsers(response.data.data.users);
       setTotalPage(response.data.data.totalPage);
+      setTotalUser(response.data.data.totalUsers);
     } catch (error) {
       return error;
     } finally {
@@ -75,6 +77,7 @@ const useUserActions = () => {
     users,
     isLoading,
     totalPage,
+    totalUser,
     message,
     fetchUsers,
     createUser,

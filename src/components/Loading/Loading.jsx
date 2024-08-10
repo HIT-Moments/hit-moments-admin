@@ -5,18 +5,16 @@ import LogoCenter from '@/assets/images/center.png';
 const Loading = () => {
   const random = Math.floor(Math.random() * 2) + 1;
 
-  const suffix = random === 1 ? '1' : '2';
-
   return (
     <div className="relative flex h-screen w-screen items-center justify-center">
       <div className="relative flex size-32 items-center justify-center *:absolute *:w-32">
-        <div className={`animate-logo-left-${suffix}`}>
+        <div className={`${random === 1 ? 'animate-logo-left-1' : 'animate-logo-left-2'}`}>
           <img src={LogoLeft} alt="" />
         </div>
-        <div className={`animate-logo-center-${suffix}`}>
+        <div className={`${random === 1 ? 'animate-logo-center-1' : 'animate-logo-center-2'}`}>
           <img src={LogoCenter} alt="" className="" />
         </div>
-        <div className={`animate-logo-right-${suffix}`}>
+        <div className={`${random === 1 ? 'animate-logo-right-1' : 'animate-logo-right-2'}`}>
           <img src={LogoRight} alt="" />
         </div>
       </div>

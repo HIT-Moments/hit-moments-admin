@@ -65,6 +65,8 @@ module.exports = {
         110: '#B2B1AA',
         120: '#EEEEEC',
       },
+      moment: '#3448c5',
+      music: '#52206b',
     },
     container: {
       center: true,

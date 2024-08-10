@@ -14,6 +14,10 @@ const momentApi = {
   delete: async (momentId) => {
     return await api.delete(`${ApiConstant.moment.delete}/${momentId}`);
   },
+
+  getAllCurrentMonth: async () => {
+    return await api.get(ApiConstant.moment.getAllCurrentMonth);
+  },
 };
 
 export default momentApi;

@@ -6,6 +6,7 @@ const useMusicActions = () => {
   const [musics, setMusics] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
+  const [totalMusic, setTotalMusic] = useState(0);
   const [message, setMessage] = useState('');
 
   const searchMusics = useCallback(async (keyword, limit = 10, page = 1) => {
@@ -15,6 +16,7 @@ const useMusicActions = () => {
       setMessage(response.data.message);
       setMusics(response.data.data.music);
       setTotalPage(response.data.data.totalPage);
+      setTotalMusic(response.data.data.totalResults);
     } catch (error) {
       return error;
     } finally {
@@ -35,7 +37,7 @@ const useMusicActions = () => {
     }
   };
 
-  return { musics, isLoading, totalPage, message, searchMusics, deleteMusic };
+  return { musics, isLoading, totalPage, totalMusic, message, searchMusics, deleteMusic };
 };
 
 export default useMusicActions;

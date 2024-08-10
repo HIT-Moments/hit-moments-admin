@@ -13,6 +13,7 @@ export const ApiConstant = {
   moment: {
     getAll: '/moments',
     delete: '/moments',
+    getAllCurrentMonth: '/moments/totals',
   },
   music: {
     search: '/musics',
